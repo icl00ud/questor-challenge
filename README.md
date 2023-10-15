@@ -4,6 +4,8 @@ Este projeto é a solução de um desafio proposto pela empresa Questor.
 
 ## Instruções de instalação
 
+### Há um arquivo .sql para que você possa importar no seu postgres e ter uma pequena base de dados para teste.
+
 1. Clone este repositório para sua máquina local
 
 ```
