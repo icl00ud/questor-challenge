@@ -20,7 +20,7 @@ cd ~/path/to/project
 
 3. Execute a WEB Api com o seguinte comando:
 
-```
+```c#
 dotnet run
 ```
 
