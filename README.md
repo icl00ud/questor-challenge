@@ -11,14 +11,15 @@ Este projeto é a solução de um desafio proposto pela empresa Questor.
 ````
 git clone https://github.com/icl00ud/questor-challenge.git
 ````
+2. Configure a connection string no appsettings.json com suas credenciais
 
-2. Navegue até a pasta onde você clonou
+3. Navegue até a pasta onde você clonou
 
 ````
 cd ~/path/to/project
 ````
 
-3. Execute a WEB Api com o seguinte comando:
+4. Execute a WEB Api com o seguinte comando:
 
 ````c#
 dotnet run
