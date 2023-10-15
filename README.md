@@ -19,13 +19,18 @@ git clone https://github.com/icl00ud/questor-challenge.git
 }
 ````
 
-4. Navegue até a pasta onde você clonou
+3. Navegue até a pasta onde você clonou
 
 ````
 cd ~/path/to/project
 ````
+4. Atualize ou instale as dependências
 
-4. Execute a WEB Api com o seguinte comando:
+````c#
+dotnet restore
+````
+
+5. Execute a WEB Api
 
 ````c#
 dotnet run
