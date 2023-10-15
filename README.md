@@ -13,7 +13,13 @@ git clone https://github.com/icl00ud/questor-challenge.git
 ````
 2. Configure a connection string no appsettings.json com suas credenciais
 
-3. Navegue até a pasta onde você clonou
+````json
+"ConnectionStrings": {
+    "PostgreSQLConnection": "Host=localhost;Port=5432;Database=questor_challenge;User ID=postgres;Password=1221;"
+  }
+````
+
+4. Navegue até a pasta onde você clonou
 
 ````
 cd ~/path/to/project
