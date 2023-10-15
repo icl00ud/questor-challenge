@@ -8,21 +8,21 @@ Este projeto é a solução de um desafio proposto pela empresa Questor.
 
 1. Clone este repositório para sua máquina local
 
-```
+````
 git clone https://github.com/icl00ud/questor-challenge.git
-```
+````
 
 2. Navegue até a pasta onde você clonou
 
-```
+````
 cd ~/path/to/project
-```
+````
 
 3. Execute a WEB Api com o seguinte comando:
 
-```c#
+````c#
 dotnet run
-```
+````
 
 ## Detalhes de documentação
 
@@ -30,6 +30,6 @@ Para mais detalhes técnicos, está presente no swagger. Pode ser acessado depoi
 
 <h5>URL para a documentação swagger:</h5>
 
-```
+````
 localhost:7205/swagger/index.html
-```
+````
