@@ -1,5 +1,3 @@
-# Documentação da Web API utilizando .NET 6
-
 ## Introdução
 
 Este projeto é a solução de um desafio proposto pela empresa Questor.
