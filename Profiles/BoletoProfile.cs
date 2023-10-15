@@ -2,15 +2,16 @@ using AutoMapper;
 using questor_challenge.DTOs;
 using questor_challenge.Models;
 
-namespace Questor.Questao2.Api.Profiles
+namespace questor_challenge.Profiles
 {
     public class BoletoProfile : Profile
     {
         public BoletoProfile()
         {
             // Source -> Target
-            CreateMap<Boleto, BoletoDTO>();
-            CreateMap<BoletoDTO, Boleto>();
+            CreateMap<CreateBoletoDTO, Boleto>();
+            CreateMap<Boleto, ReadBoletoDTO>().ForMember(boletoDTO => boletoDTO.Id, opt => opt.MapFrom(boleto => boleto.Id));
+            CreateMap<ReadBoletoDTO, Boleto>();
         }
     }
 }

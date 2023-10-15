@@ -3,35 +3,43 @@ using questor_challenge.Data;
 using questor_challenge.Models;
 using questor_challenge.DTOs;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+using questor_challenge.Services;
 
 namespace questor_challenge.Controllers
 {
-    [Route("api/boletos")]
     [ApiController]
     public class BoletoController : ControllerBase
     {
-        private readonly QuestorContext _context;
-        private readonly IMapper _mapper;
+        private IMapper Mapper { get; }
+        private BoletoServices Services { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoletoController"/> class.
+        /// </summary>
+        /// <param name="mapper">The mapper.</param>
+        /// <param name="services">The services.</param>
         public BoletoController
         (
-            QuestorContext context,
-            IMapper mapper
+            IMapper mapper,
+            BoletoServices services
         )
         {
-            _context = context;
-            _mapper = mapper;
+            Mapper = mapper;
+            Services = services;
         }
 
+        /// <summary>
+        /// Get all boletos.
+        /// </summary>
+        /// <returns>List of ReadBoletoDTO.</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BoletoDTO>>> GetBoletos()
+        [Route("/getBoletos")]
+        public async Task<ActionResult<IEnumerable<ReadBoletoDTO>>> GetBoletos()
         {
             try
             {
-                var boletos = await _context.Boletos.ToListAsync();
-                var boletosDTO = _mapper.Map<IEnumerable<BoletoDTO>>(boletos);
-                return Ok(boletosDTO);
+                List<ReadBoletoDTO> boletos = await Services.GetAllBoletos();
+                return Ok(Mapper.Map<IEnumerable<ReadBoletoDTO>>(boletos));
             }
             catch (Exception ex)
             {
@@ -39,15 +47,43 @@ namespace questor_challenge.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Boleto>> CreateBoleto([FromBody] BoletoDTO boletoDTO)
+        /// <summary>
+        /// Get boleto by id.
+        /// </summary>
+        /// <param name="id">Boleto id.</param>
+        /// <returns>ReadBoletoDTO instance.</returns>
+        [HttpGet]
+        [Route("/getBoleto/{id}")]
+        public async Task<ActionResult<ReadBoletoDTO>> GetBoletoById(int id)
         {
             try
             {
-                Boleto boleto = _mapper.Map<Boleto>(boletoDTO);
-                _context.Boletos.Add(boleto);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction("GetBoleto", new { id = boleto.Id }, boleto);
+                ActionResult<ReadBoletoDTO> boleto = await Services.GetBoletoById(id);
+                return boleto.Value == null ? (ActionResult<ReadBoletoDTO>)NotFound() : (ActionResult<ReadBoletoDTO>)Ok(boleto.Value);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Create a new boleto.
+        /// </summary>
+        /// <param name="boletoDTO">CreateBoletoDTO instance.</param>
+        /// <returns>The created boleto.</returns>
+        /// <response code="201">The bank was successfully created.</response>
+        /// <response code="400">Bad Request - If there are issues with the request payload.</response>
+        [HttpPost]
+        [Route("/createBoleto")]
+        [ProducesResponseType(typeof(Boleto), 201)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<Boleto>> CreateBoleto([FromBody] CreateBoletoDTO boletoDTO)
+        {
+            try
+            {
+                ActionResult<Boleto> newBoleto = await Services.CreateBoleto(boletoDTO);
+                return CreatedAtAction(nameof(GetBoletoById), new { id = newBoleto.Value.Id }, newBoleto.Value);
             }
             catch (Exception ex)
             {

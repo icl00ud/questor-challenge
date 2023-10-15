@@ -1,6 +1,26 @@
 namespace Questor.Services
 {
-    public class CommonServices
+    /// <summary>
+    /// Interface for common services.
+    /// </summary>
+    public interface ICommonServices
+    {
+        /// <summary>
+        /// Validates a CPF number.
+        /// </summary>
+        /// <param name="cpf">The CPF number to validate.</param>
+        /// <returns>True if the CPF is valid, false otherwise.</returns>
+        public bool IsValidCPF(string? cpf);
+
+        /// <summary>
+        /// Validates a CNPJ number.
+        /// </summary>
+        /// <param name="cnpj">The CNPJ number to validate.</param>
+        /// <returns>True if the CNPJ is valid, false otherwise.</returns>
+        public bool IsValidCNPJ(string? cnpj);
+    }
+
+    public class CommonServices : ICommonServices
     {
         public bool IsValidCPF(string? cpf)
         {
@@ -28,21 +48,14 @@ namespace Questor.Services
             int[] multiplier1 = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] multiplier2 = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
 
-            string tempCpf = cpf.Substring(0, 9);
+            string tempCpf = cpf[..9];
             int sum = 0;
 
             for (int i = 0; i < 9; i++)
                 sum += int.Parse(tempCpf[i].ToString()) * multiplier1[i];
 
             int remainder = sum % 11;
-            if (remainder < 2)
-            {
-                remainder = 0;
-            }
-            else
-            {
-                remainder = 11 - remainder;
-            }
+            remainder = remainder < 2 ? 0 : 11 - remainder;
 
             string digit = remainder.ToString();
             tempCpf += digit;
@@ -52,14 +65,7 @@ namespace Questor.Services
                 sum += int.Parse(tempCpf[i].ToString()) * multiplier2[i];
 
             remainder = sum % 11;
-            if (remainder < 2)
-            {
-                remainder = 0;
-            }
-            else
-            {
-                remainder = 11 - remainder;
-            }
+            remainder = remainder < 2 ? 0 : 11 - remainder;
 
             digit += remainder.ToString();
             return cpf.EndsWith(digit);
@@ -91,21 +97,14 @@ namespace Questor.Services
             int[] multiplier1 = new int[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] multiplier2 = new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
 
-            string tempCnpj = cnpj.Substring(0, 12);
+            string tempCnpj = cnpj[..12];
             int sum = 0;
 
             for (int i = 0; i < 12; i++)
                 sum += int.Parse(tempCnpj[i].ToString()) * multiplier1[i];
 
             int remainder = sum % 11;
-            if (remainder < 2)
-            {
-                remainder = 0;
-            }
-            else
-            {
-                remainder = 11 - remainder;
-            }
+            remainder = remainder < 2 ? 0 : 11 - remainder;
 
             string digit = remainder.ToString();
             tempCnpj += digit;
@@ -115,14 +114,7 @@ namespace Questor.Services
                 sum += int.Parse(tempCnpj[i].ToString()) * multiplier2[i];
 
             remainder = sum % 11;
-            if (remainder < 2)
-            {
-                remainder = 0;
-            }
-            else
-            {
-                remainder = 11 - remainder;
-            }
+            remainder = remainder < 2 ? 0 : 11 - remainder;
 
             digit += remainder.ToString();
             return cnpj.EndsWith(digit);

@@ -15,17 +15,17 @@ public class Banco
     /// The name of the bank.
     /// </summary>
     [Required]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The code of the bank.
     /// </summary>
     [Required]
-    public string Code { get; set; }
+    public string? Code { get; set; }
 
     /// <summary>
     /// The interest percentage of the bank.
     /// </summary>
     [Required]
-    public decimal InterestPercentage { get; set; }
+    public double InterestPercentage { get; set; }
 }

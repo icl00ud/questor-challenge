@@ -1,12 +1,20 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Questor.Services;
 using questor_challenge.Data;
+using questor_challenge.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("PostgreSQLConnection");
 
-builder.Services.AddDbContext<QuestorContext>(options => options.UseLazyLoadingProxies().UseNpgsql(connectionString));
+builder.Services.AddDbContext<QuestorContext>(options => options.UseLazyLoadingProxies().UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddTransient<CommonServices>();
+builder.Services.AddTransient<FeeServices>();
+builder.Services.AddTransient<BoletoServices>();
+builder.Services.AddTransient<BancoServices>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -14,11 +22,11 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Questor Challenge", Version = "v1" });
 });
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+using (IServiceScope scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<QuestorContext>();
+    QuestorContext dbContext = scope.ServiceProvider.GetRequiredService<QuestorContext>();
     dbContext.Database.Migrate();
 }
 
@@ -28,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Questor Challenge - API");
     });
 }
 
