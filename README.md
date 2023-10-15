@@ -8,7 +8,7 @@ Este projeto é a solução de um desafio proposto pela empresa Questor.
 
 1. Clone este repositório para sua máquina local
 
-````
+````git
 git clone https://github.com/icl00ud/questor-challenge.git
 ````
 2. Configure a connection string no appsettings.json com suas credenciais
