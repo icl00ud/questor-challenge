@@ -15,8 +15,8 @@ git clone https://github.com/icl00ud/questor-challenge.git
 
 ````json
 "ConnectionStrings": {
-    "PostgreSQLConnection": "Host=localhost;Port=5432;Database=questor_challenge;User ID=postgres;Password=1221;"
-  }
+    "PostgreSQLConnection": "Host=localhost;Port=PostgresPort;Database=YourDatabase;User ID=YourUserID;Password=YourPassword;"
+}
 ````
 
 4. Navegue até a pasta onde você clonou
