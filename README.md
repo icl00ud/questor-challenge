@@ -31,5 +31,5 @@ Para mais detalhes técnicos, está presente no swagger. Pode ser acessado depoi
 <h5>URL para a documentação swagger:</h5>
 
 ```
-https://localhost:7205/swagger/index.html
+localhost:7205/swagger/index.html
 ```
